@@ -1,8 +1,8 @@
-# MyBarChartView
+# BarChartView
 
 A simple Column Chart View which can display the real-time data and is also highly customized.
 
-![barChartViewDemo](/Users/stone/Desktop/BarChart/PicturesForREADME/barChartViewDemo.gif)
+![barChartViewDemo](https://raw.githubusercontent.com/StoneN/BarChart/master/PicturesForREADME/barChartViewDemo.gif)
 
 
 
