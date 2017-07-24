@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xex-j5-puc">
+                                <rect key="frame" x="61" y="535" width="253" height="29"/>
+                                <subviews>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="BhM-FH-fPm" userLabel="ColumnStepper">
+                                        <rect key="frame" x="0.0" y="0.0" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="changeColumnNumber:" destination="BYZ-38-t0r" eventType="valueChanged" id="OBH-mu-CaO"/>
+                                        </connections>
+                                    </stepper>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="751" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="0AG-vz-bHl" userLabel="LineStepper">
+                                        <rect key="frame" x="159" y="0.0" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="changeLineNumber:" destination="BYZ-38-t0r" eventType="valueChanged" id="OEb-WT-aeQ"/>
+                                        </connections>
+                                    </stepper>
+                                </subviews>
+                            </stackView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="设置数据" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kk8-K4-6yf" userLabel="changeDataTextField">
+                                <rect key="frame" x="148" y="470" width="78.5" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                <connections>
+                                    <action selector="begin:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="gdn-sS-txf"/>
+                                    <action selector="finish:" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="kRk-Q0-AwN"/>
+                                </connections>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="cg1-n7-OvG">
+                                <rect key="frame" x="81" y="405" width="213" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nep-M6-ca9" userLabel="randValue">
+                                        <rect key="frame" x="0.0" y="0.0" width="62" height="30"/>
+                                        <state key="normal" title="随机数据"/>
+                                        <connections>
+                                            <action selector="clickRandValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JsM-Kh-YPL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q0R-ek-Coi" userLabel="Delete">
+                                        <rect key="frame" x="182" y="0.0" width="31" height="30"/>
+                                        <state key="normal" title="删除"/>
+                                        <connections>
+                                            <action selector="delete:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TDj-EN-usE"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xHE-NW-Cso" userLabel="LabelSwitch">
+                                <rect key="frame" x="163" y="595" width="51" height="31"/>
+                                <connections>
+                                    <action selector="changeLableSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="tPe-Rr-GWZ"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="列数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wta-Pp-i3H">
+                                <rect key="frame" x="61" y="585" width="94" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="Oic-vZ-UUO"/>
+                                    <constraint firstAttribute="width" constant="94" id="cJb-ig-6X4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="y刻度线数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5r-rr-WFu">
+                                <rect key="frame" x="220" y="585" width="94" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="cg1-n7-OvG" secondAttribute="trailing" constant="65" id="3yc-od-qnj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Kk8-K4-6yf" secondAttribute="trailing" constant="132" id="5EC-So-YdE"/>
+                            <constraint firstItem="Xex-j5-puc" firstAttribute="top" secondItem="Kk8-K4-6yf" secondAttribute="bottom" constant="35" id="87L-PG-rSZ"/>
+                            <constraint firstItem="b5r-rr-WFu" firstAttribute="top" secondItem="wta-Pp-i3H" secondAttribute="top" id="DFb-4Z-XVH"/>
+                            <constraint firstItem="xHE-NW-Cso" firstAttribute="top" secondItem="Kk8-K4-6yf" secondAttribute="bottom" constant="95" id="DuL-gk-zdU"/>
+                            <constraint firstItem="xHE-NW-Cso" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Fpg-kv-HDE"/>
+                            <constraint firstItem="wta-Pp-i3H" firstAttribute="leading" secondItem="BhM-FH-fPm" secondAttribute="leading" id="KW1-hd-OzU"/>
+                            <constraint firstItem="cg1-n7-OvG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="65" id="Kxy-LJ-Mb1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xex-j5-puc" secondAttribute="trailing" constant="45" id="OJF-Ym-xFu"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Kk8-K4-6yf" secondAttribute="bottom" constant="167" id="PTf-72-h6L"/>
+                            <constraint firstItem="Kk8-K4-6yf" firstAttribute="top" secondItem="cg1-n7-OvG" secondAttribute="bottom" constant="35" id="WMl-WV-Xou"/>
+                            <constraint firstItem="Xex-j5-puc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="45" id="YaS-XD-Yae"/>
+                            <constraint firstItem="b5r-rr-WFu" firstAttribute="width" secondItem="wta-Pp-i3H" secondAttribute="width" id="awb-RT-9qb"/>
+                            <constraint firstItem="Kk8-K4-6yf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="132" id="cUf-Da-bLD"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BhM-FH-fPm" secondAttribute="bottom" constant="103" id="dtY-5c-43K"/>
+                            <constraint firstItem="wta-Pp-i3H" firstAttribute="top" secondItem="BhM-FH-fPm" secondAttribute="bottom" constant="21" id="iUf-Zp-gPV"/>
+                            <constraint firstItem="b5r-rr-WFu" firstAttribute="height" secondItem="wta-Pp-i3H" secondAttribute="height" id="r3B-ud-M3O"/>
+                            <constraint firstItem="b5r-rr-WFu" firstAttribute="trailing" secondItem="0AG-vz-bHl" secondAttribute="trailing" id="sta-iU-rZM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ColumnStepper" destination="BhM-FH-fPm" id="bWd-oJ-QlL"/>
+                        <outlet property="LineStepper" destination="0AG-vz-bHl" id="VFv-vr-YL5"/>
+                        <outlet property="changeDataTextField" destination="Kk8-K4-6yf" id="9z0-Hr-uit"/>
+                        <outlet property="delete" destination="Q0R-ek-Coi" id="9u6-uI-7Um"/>
+                        <outlet property="randValue" destination="Nep-M6-ca9" id="RIv-KN-xAh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-311.19999999999999" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+</document>
