@@ -30,8 +30,10 @@ A simple Column Chart View which can display the real-time data and is also high
 - 通过 `点操作` 或 `设值方法` 来自定义 view 的一些属性，可定义的属性如下：
 
   ~~~objective-c
-  @property(nonatomic,strong)UIColor *columnColor;    
-  //柱子颜色（默认：yellow）
+  //backgroundColor
+  //背景色（默认：yellow）
+  @property(nonatomic,strong)UIColor *columnColor;    
+  //柱子颜色（默认：gray）
 
   @property(nonatomic,strong)UIColor *columnValueColor;   
   //柱子上/下的数值颜色（默认：black）
