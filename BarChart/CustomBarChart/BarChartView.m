@@ -82,7 +82,6 @@ struct Extremum
 -(instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.frame = frame;
         self.userInteractionEnabled = YES;
 
         self.data = [[NSMutableArray alloc]init];
