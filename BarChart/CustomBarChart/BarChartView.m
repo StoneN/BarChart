@@ -22,7 +22,6 @@ static const int tagOffsetOfColumnValueLable = 1;
 static const int tagOffsetOfColumnView = 100;
 static const int tagOffsetOfShadowButton = 200;
 
-
 struct Extremum
 {
     CGFloat max;
@@ -45,6 +44,7 @@ struct Extremum
 @property(nonatomic,assign)NSInteger plusLineNumber;
 @property(nonatomic,assign)NSInteger average;//平均值
 @property(nonatomic,strong)NSMutableArray *yCoordinate;//y轴刻度
+@property(nonatomic,strong)NSArray *yCoordinateFixed;//y轴刻度
 @property(nonatomic,assign,readwrite)NSInteger selectedColumnIndex;
 
 -(void)configureColumnElement;
@@ -84,8 +84,11 @@ struct Extremum
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
 
+        self.chartType = ChartTypeNormal;
+        
         self.data = [[NSMutableArray alloc]init];
         self.yCoordinate = [[NSMutableArray alloc]init];
+        self.yCoordinateFixed = @[@"-60",@"-40",@"-20",@"0",@"20",@"40",@"60"];
 
         self.yUnit = @"单位";
         self.accuracy = 1;
@@ -118,6 +121,22 @@ struct Extremum
 // MARK: Configure Funcs:
 -(void)configureColumnElement
 {
+    CGFloat barChartHeight = self.frame.size.height - barChartTopSpacing - barChartBottomSpacing;
+    
+    switch (_chartType) {
+        case ChartTypeNormal:
+            break;
+        case ChartTypeOnlyPlus:
+            self.plusLineNumber = (_lineNumber - 1) / 2;
+            self.lineHeight = barChartHeight / (_lineNumber - 1) * 2;
+            
+            break;
+        case ChartTypeOnlyMinus:
+            self.plusLineNumber = 0;
+            self.lineHeight = barChartHeight / (_lineNumber - 1) * 2;
+            self.zeroLineIndex = _lineNumber - 1;
+            break;
+    }
     for (NSInteger i = 0; i < _columnNumber; ++i) {
         CGRect columnRect;
         columnRect.origin.x = barChartLeftSpacing + (i + (1 - _columnWidthScale) / 2) * _columnWidth;
@@ -157,9 +176,43 @@ struct Extremum
     }
 }
 
+-(void)configureYCoordinateByData
+{
+    struct Extremum extremumValue = [self getExtremumFromData];
+    
+    CGFloat maxValue = extremumValue.max;
+    CGFloat minValue = extremumValue.min;
+    
+    if (maxValue == 0 && minValue == 0) {
+        [self reconfigureYCoordinate];
+    } else {
+        CGFloat max;
+        if (fabs(maxValue) > fabs(minValue)) {
+            max = fabs(maxValue);
+        } else {
+            max = fabs(minValue);
+        }
+        CGFloat averageValue;
+        NSInteger lines = (_lineNumber - 1) / 2;
+        averageValue = max / lines;
+        self.average = (NSInteger)ceilf(averageValue);
+        
+        for (NSInteger i = 0; i < _lineNumber; ++i) {
+            [_yCoordinate setObject:[NSString stringWithFormat:@"%ld", _average * (0 - lines + i)] atIndexedSubscript:i];
+        }
+    }
+}
+
+
 
 
 // MARK: Setter:
+-(void)setChartType:(ChartType)chartType
+{
+    _chartType = chartType;
+    [self configureColumnElement];
+}
+
 -(void)setColumnNumber:(NSInteger)columnNumber
 {
     if (_isFirst) {
@@ -189,7 +242,16 @@ struct Extremum
     [self configureColumnElement];
 }
 
-
+-(void)setColumnWidthScale:(CGFloat)columnWidthScale
+{
+    if (_isFirst) {
+        self.isFirst = false;
+    } else {
+        [self removeOldColumnElement];
+    }
+    _columnWidthScale = columnWidthScale;
+    [self configureColumnElement];
+}
 
 
 
@@ -224,7 +286,25 @@ struct Extremum
 
 -(void)drawLinesAndYCoordinateWithContextRef:(CGContextRef)ctr andAttribute:(NSDictionary *)attribute
 {
-    for (NSInteger i = _lineNumber - 1, j = 0; i >= 0; --i, ++j) {
+    NSInteger ii = _lineNumber - 1;
+    NSInteger n = 0;
+    switch (_chartType) {
+        case ChartTypeNormal:
+            break;
+        case ChartTypeOnlyPlus:
+            n = (_lineNumber - 1) / 2;
+            break;
+        case ChartTypeOnlyMinus:
+            ii = (_lineNumber - 1) / 2;
+            break;
+    }
+    NSArray *yCd = [[NSArray alloc]init];
+    if (_columnNumber == 1) {
+        yCd = _yCoordinateFixed;
+    } else {
+        yCd = _yCoordinate;
+    }
+    for (NSInteger i = ii, j = 0; i >= n; --i, ++j) {
         CGPoint start = CGPointMake(barChartLeftSpacing, barChartTopSpacing + j * _lineHeight);
         CGPoint end = CGPointMake(self.frame.size.width - barChartRightSpacing, start.y);
 
@@ -234,8 +314,8 @@ struct Extremum
         CGContextAddLineToPoint(ctr, end.x, end.y);
         CGContextStrokePath(ctr);
 
-        if (![_yCoordinate[i] isEqualToString:@""]) {
-            [_yCoordinate[i] drawInRect:CGRectMake(start.x - 35, start.y - 6, 30, 22) withAttributes:attribute];
+        if (![yCd[i] isEqualToString:@""]) {
+            [yCd[i] drawInRect:CGRectMake(start.x - 35, start.y - 6, 30, 22) withAttributes:attribute];
         }
     }
 
@@ -267,6 +347,25 @@ struct Extremum
                   NSForegroundColorAttributeName:_columnValueColor
                   };
 
+    switch (_chartType) {
+        case ChartTypeNormal:
+            break;
+        case ChartTypeOnlyPlus:
+            
+            break;
+        case ChartTypeOnlyMinus:
+            self.plusLineNumber = 0;
+            self.zeroLineIndex = _lineNumber - 1;
+            break;
+    }
+    
+    NSArray *yCd = [[NSArray alloc]init];
+    if (_columnNumber == 1) {
+        yCd = _yCoordinateFixed;
+    } else {
+        yCd = _yCoordinate;
+    }
+    
     for (NSInteger i = 0; i < _data.count; ++i) {
         UIView *columnView = (UIView *)[self viewWithTag:i + tagOffsetOfColumnView];
         UILabel *columnValueLable = (UILabel *)[self viewWithTag:i + tagOffsetOfColumnValueLable];
@@ -281,16 +380,19 @@ struct Extremum
             columnValueLable.text = _data[i];
 
             if (newValue > 0) {
-                CGFloat scale = newValue / [_yCoordinate.lastObject floatValue];
+//                CGFloat scale = newValue / [_yCoordinate.lastObject floatValue];
+                CGFloat scale = newValue / [yCd.lastObject floatValue];
                 columnViewRect.origin.y = barChartTopSpacing + (1 - scale) * _plusLineNumber * _lineHeight;
                 columnViewRect.size.height = scale * _plusLineNumber * _lineHeight;
                 labelRect.origin.y = columnViewRect.origin.y - 22;
                 labelRect.size.height = 22;
             }
             if (newValue < 0) {
-                CGFloat scale = newValue / [_yCoordinate.firstObject floatValue];
+//                CGFloat scale = newValue / [_yCoordinate.firstObject floatValue];
+                CGFloat scale = newValue / [yCd.firstObject floatValue];
                 columnViewRect.origin.y = barChartTopSpacing + _plusLineNumber * _lineHeight;
-                columnViewRect.size.height = scale * _plusLineNumber * _lineHeight;
+//                columnViewRect.size.height = scale * _plusLineNumber * _lineHeight;
+                columnViewRect.size.height = scale * ((_lineNumber - 1) / 2) * _lineHeight;
                 labelRect.origin.y = barChartTopSpacing + _plusLineNumber * _lineHeight + columnViewRect.size.height;
                 labelRect.size.height = 22;
             }
@@ -330,46 +432,6 @@ struct Extremum
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-// MARK: Set Funcs:
-
-
--(void)configureYCoordinateByData
-{
-    struct Extremum extremumValue = [self getExtremumFromData];
-
-    CGFloat maxValue = extremumValue.max;
-    CGFloat minValue = extremumValue.min;
-
-    if (maxValue == 0 && minValue == 0) {
-        [self reconfigureYCoordinate];
-    } else {
-        CGFloat max;
-        if (fabs(maxValue) > fabs(minValue)) {
-            max = fabs(maxValue);
-        } else {
-            max = fabs(minValue);
-        }
-        CGFloat averageValue;
-        NSInteger lines = (_lineNumber - 1) / 2;
-        averageValue = max / lines;
-        self.average = (NSInteger)ceilf(averageValue);
-
-        for (NSInteger i = 0; i < _lineNumber; ++i) {
-            [_yCoordinate setObject:[NSString stringWithFormat:@"%ld", _average * (0 - lines + i)] atIndexedSubscript:i];
-        }
-    }
-}
-
 
 
 

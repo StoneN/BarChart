@@ -13,6 +13,7 @@
 
 @interface ViewController () <UITextFieldDelegate,BarChartViewDelegate>
 
+@property(strong,nonatomic)IBOutlet UISegmentedControl *segment;
 @property(strong,nonatomic)IBOutlet UIButton *randValue;
 @property(strong,nonatomic)IBOutlet UIButton *delete;
 @property(strong,nonatomic)IBOutlet UITextField *changeDataTextField;
@@ -37,6 +38,11 @@
    
     _barChartView = [[BarChartView alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, SCREEN_WIDTH)];
     _barChartView.shadowButtonColor = UIColor.redColor;
+    
+//    _barChartView.chartType = ChartTypeOnlyPlus;
+//    _barChartView.chartType = ChartTypeOnlyMinus;
+    
+    
     [self.view addSubview:_barChartView];
     
     _barChartView.delegate = self;
@@ -44,6 +50,7 @@
     _changeDataTextField.delegate = self;
     _ColumnStepper.value = _barChartView.columnNumber;
     _LineStepper.value = _barChartView.lineNumber;
+    [_segment setHidden:true];
 }
 
 -(void)clickedColumn
@@ -89,8 +96,13 @@
 }
 
 
-
 // MARK: Action:
+
+- (IBAction)segmentValueChanged:(UISegmentedControl *)sender {
+    self.barChartView.chartType = sender.selectedSegmentIndex;
+    _barChartView.columnNumber = _barChartView.columnNumber;
+}
+
 - (IBAction)clickRandValue:(UIButton *)sender {
     
     NSInteger columnIndex = arc4random() % _barChartView.columnNumber;

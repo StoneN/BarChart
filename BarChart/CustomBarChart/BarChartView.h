@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, ChartType) {
+    ChartTypeNormal,    //有正有负
+    ChartTypeOnlyPlus,  //仅正
+    ChartTypeOnlyMinus, //仅负
+};
+
 @protocol BarChartViewDelegate <NSObject>
 
 -(void)clickedColumn;//处理按钮点击事件
@@ -16,6 +22,8 @@
 
 
 @interface BarChartView : UIView
+
+@property(nonatomic,assign)ChartType chartType; //1.Normal 2.OnlyPlus 3.OnlyMinus（默认：Normal）
 
 @property(nonatomic,strong)UIColor *columnColor;    //柱子颜色（默认：yellow）
 @property(nonatomic,strong)UIColor *columnValueColor;   //柱子上/下的数值颜色（默认：black）
