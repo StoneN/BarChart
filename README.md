@@ -29,7 +29,7 @@ A simple Column Chart View which can display the real-time data and is also high
 
 - 通过 `点操作` 或 `设值方法` 来自定义 view 的一些属性，可定义的属性如下：
 
-  ~~~objective-c
+  ~~~objectivec
   self.backgroundColor;
   //背景色（默认：yellow）
 
@@ -82,7 +82,7 @@ A simple Column Chart View which can display the real-time data and is also high
 
 - 可选择实现 `BarChartViewDelegate` :
 
-  ~~~objective-c
+  ~~~objectivec
   @protocol BarChartViewDelegate <NSObject>
   -(void)clickedColumn;//当用户点击某柱数据时，将回调该方法
   @end
@@ -90,7 +90,7 @@ A simple Column Chart View which can display the real-time data and is also high
 
 - 调用方法将要展示的数据传给 `view` 进行显示
 
-  ~~~objective-c
+  ~~~objectivec
   -(void)sendDataValue:(CGFloat)dataValue atIndex:(NSInteger)index;
   //index表示柱子下标，自左向右依次为：0，1，2...
   //要清楚某列数据，只需调用：sendDataValue:0 atIndex:index；
