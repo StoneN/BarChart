@@ -16,7 +16,7 @@ A simple Column Chart View which can display the real-time data and is also high
 
 - 导入头文件并使用 `initWithFrame:` 初始化 `view` ：
 
-  ~~~objective-c
+  ~~~objectivec
   #import "BarChartView.h"
   //......
   //......
